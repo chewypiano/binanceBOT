@@ -3,6 +3,7 @@ package Source;
 import java.util.concurrent.ExecutorService;
 import java.util.concurrent.Executors;
 
+import Analytics.RiskWatcher;
 import org.quartz.SchedulerException;
 
 import Analytics.AnalyticsManager;
@@ -39,7 +40,9 @@ public class Builder {
         ScheduleManager scheduleManager = new ScheduleManager(eventManager);
         CrossOverManager crossOverManager = new CrossOverManager(window1, window2, threshold);
         AnalyticsManager analyticsManager = new AnalyticsManager(eventManager, scheduleManager);
-        analyticsManager.addListener(crossOverManager);
+        //analyticsManager.addListener(crossOverManager);
+        RiskWatcher riskWatcher = new RiskWatcher();
+        analyticsManager.addListener(riskWatcher);
 
         // Executor service for multithreading
         ExecutorService threadPool = Executors.newFixedThreadPool(3);
