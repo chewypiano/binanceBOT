@@ -70,12 +70,21 @@ public class AnalyticsManager implements EventListener, Runnable {
         }
     }
 
+    protected void initRiskWatcher() {
+        try {
+            scheduleManager.periodicCallBack(1000, "orderImbalance");
+        } catch (SchedulerException e) {
+            e.printStackTrace();
+        }
+    }
+
     /**
      * Gets orderbook and schedule events from their respective broker's queues, and handles these events.
      */
     @Override
     public void run() {
-        initialize();
+        //initialize();
+        initRiskWatcher();
         while (true) {
             try {
                 handleEvent((OrderBook) orderBookBroker.get());
